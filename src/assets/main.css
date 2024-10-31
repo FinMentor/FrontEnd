@@ -1,0 +1,37 @@
+:root {
+  --primary-color: #6e2ff4;
+  --main-background-color: #f0f0f0;
+  --main-card-color: #ffffff;
+  --main-text-black: #000000;
+  --sub-text-gray: #49454f;
+  --point-color-pink: #fe446f;
+  --point-color-yello: #ffce0a;
+  --point-color-mint: #90f0ee;
+  --active-button-purple: #6e2ff4;
+  --inactive-button: #e8e8fc;
+  --inactive-button-text: #9ca0ad;
+  --inactive-text-gray: #cccccc;
+  --inactive-icon: #afafaf;
+  --back-button: #4f4f4f;
+  --error-color: #ff4d4f;
+  --check-color: #6e2ff4;
+  --bull-color: #ff5252;
+  --bear-color: #0a7df3;
+  --sell-button-color: #0066FF;
+  --buy-button-color: #FF4D4F;
+  --warning-color: #FF0003;
+  --input-gray: #d8d8d8;
+  --before-auth: #D7D8E0;
+  --before-auth-text: #eeeeee;
+  --box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("@/assets/fonts/Pretendard-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pretendard-Medium";
+  src: url("@/assets/fonts/Pretendard-Medium.ttf") format("truetype");
+}

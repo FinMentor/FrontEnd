@@ -1,0 +1,60 @@
+name: CI/CD Pipeline
+
+# 트리거: main 브랜치에 push될 때 작동
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2. Node.js 버전 설정
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # 최신 안정 버전 사용
+
+      # 3. 의존성 설치
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # 4. .env 파일 생성 (Vite 빌드 시 사용)
+      - name: Create .env file
+        run: |
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+          echo "VITE_REDIRECT_URI=${{ secrets.VITE_REDIRECT_URI }}" >> .env
+          echo "VITE_KAKAO_REST_API_KEY=${{ secrets.VITE_KAKAO_REST_API_KEY }}" >> .env
+          echo "VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}" >> .env
+
+      # 5. 코드 린트 검사
+      - name: Lint
+        run: |
+          npm run lint
+
+      # 6. 프로젝트 빌드
+      - name: Build project
+        run: |
+          npm run build
+
+      # 7. 빌드 결과물 확인 (빌드 실패 시 참고)
+      - name: Upload build artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./dist
+
+      # 8. GitHub Pages로 배포
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          publish_dir: ./dist
