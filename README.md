@@ -1,4 +1,4 @@
-# PleaseGiveMeAssets Frontend Project
+# FinMentor Frontend Project
 
 - **공통 사항**
 
@@ -17,7 +17,7 @@
   - README.me 파일은 생각나는 기타 사항들을 모두 작성해주면 됩니다.
 
 - **프론트엔드 개발 가이드**
-  - 링크 : https://bjhbhm.atlassian.net/wiki/spaces/cqdnDRC50KdZ/pages/edit-v2/720897
+  - 링크 : https://bjhbhm.atlassian.net/wiki/spaces/S5BYxz0B9CKL/pages/18252014
 
 #### 커밋 메시지 규칙
 
