@@ -1,37 +1,35 @@
-import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import dotenv from "dotenv";
+import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { fileURLToPath, URL } from "node:url";
 
-dotenv.config();
-
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    VitePWA({
-      srcDir: "/",
-      filename: "sw.js",
-      registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-        type: "module",
-      },
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    plugins: [
+        react(),
+        VitePWA({
+            srcDir: "/",
+            filename: "sw.js",
+            registerType: "autoUpdate",
+            devOptions: {
+                enabled: true,
+                type: "module",
+            },
+        }),
+    ],
+    resolve: {
+        alias: {
+            "@": fileURLToPath(new URL("./src", import.meta.url)),
+        },
     },
-  },
-  server: {
-    proxy: {
-      "/api": {
-        target: process.env.VITE_API_URL,
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
+    server: {
+        proxy: {
+            "/api": {
+                // eslint-disable-next-line no-undef
+                target: process.env.VITE_API_URL,
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/api/, ""),
+            },
+        },
     },
-  },
 });
