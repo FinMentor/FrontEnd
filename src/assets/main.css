@@ -1,0 +1,26 @@
+:root {
+    --primary-color: #000000;
+    --main-background-color: #F1F1F1;
+    --main-gray-color: #60584C;
+    --main-positive-color: #FFBC00;
+    --main-negative-color: #FFCC00;
+    --sub-dark-gray-color: #545045;
+    --sub-gold-color: #96774A;
+    --sub-silver-color: #A6A39E;
+    --main-button-positive-color: #FFD400;
+    --main-button-negative-color: #ECEAE8;
+}
+
+@font-face {
+    font-family: "Pretendard-Regular";
+    src: url("@/assets/fonts/Pretendard-Regular.otf") format("truetype");
+}
+@font-face {
+    font-family: "Pretendard-Medium";
+    src: url("@/assets/fonts/Pretendard-Medium.otf") format("truetype");
+}  
+@font-face {
+    font-family: "Pretendard-Bold";
+    src: url("@/assets/fonts/Pretendard-Bold.otf") format("truetype");
+}
+
