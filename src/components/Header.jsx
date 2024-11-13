@@ -1,11 +1,10 @@
+import { Nav, NavLink } from "./Header.styles";
+
 function Header() {
     return (
-        <header>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-            </nav>
-        </header>
+        <Nav>
+            <NavLink to="/">헤더</NavLink>
+        </Nav>
     );
 }
 
