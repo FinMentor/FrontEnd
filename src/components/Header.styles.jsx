@@ -11,6 +11,9 @@ export const Nav = styled.nav`
     width: 428px;
     align-items: center;
     box-sizing: border-box;
+    z-index: 100;
+    font-family: "Pretendard-Medium";
+    font-size: 20px;
 `;
 
 export const NavLink = styled(Link)`

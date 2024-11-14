@@ -31,7 +31,7 @@ export default [
             ...reactHooks.configs.recommended.rules,
             "react/jsx-no-target-blank": "off",
             "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-            "prettier/prettier": "error",
+            "prettier/prettier": ["error", { printWidth: 120 }],
             "linebreak-style": 0,
         },
     },
