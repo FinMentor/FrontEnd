@@ -25,7 +25,7 @@ function ProfitRanker() {
     return (
         <Root>
             <MonthlyProfitContainer>
-                <MonthlyProfitTitle>월간 수익률이 높은 고수</MonthlyProfitTitle>
+                <MonthlyProfitTitle>월간 랭킹</MonthlyProfitTitle>
                 <ProfitRankerList>
                     {monthlyProfitRankers.map(ranker => (
                         <ProfitRankerCard key={ranker.name}>
@@ -36,7 +36,7 @@ function ProfitRanker() {
                 </ProfitRankerList>
             </MonthlyProfitContainer>
             <WeeklyProfitContainer>
-                <WeeklyProfitTitle>주간 수익률이 높은 고수</WeeklyProfitTitle>
+                <WeeklyProfitTitle>주간 랭킹</WeeklyProfitTitle>
                 <ProfitRankerList>
                     {weeklyProfitRankers.map(ranker => (
                         <ProfitRankerCard key={ranker.name}>

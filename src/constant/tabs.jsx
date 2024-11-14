@@ -1,12 +1,11 @@
 import Home from "@/components/tabs/Home";
 import About from "@/components/tabs/About";
-import Chat from "@/components/tabs/Chat";
 import Rank from "@/components/tabs/Rank";
-
 import HomeIcon from "@/assets/icons/home-icon.svg?react";
 import CommunityIcon from "@/assets/icons/community-icon.svg?react";
 import ChatIcon from "@/assets/icons/chat-icon.svg?react";
 import RankingIcon from "@/assets/icons/ranking-icon.svg?react";
+import Chat from "@/components/tabs/Chat";
 
 export const TABS = [
     {
