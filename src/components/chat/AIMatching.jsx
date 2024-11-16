@@ -1,14 +1,11 @@
 import { Root, Title, ArrowIconContainer } from "./AIMatching.styles";
 import aiMatchingIcon from "@/assets/icons/ai-matching.svg";
 import leftArrow from "@/assets/icons/left-arrow.svg";
-import { enterMatching } from "@/states/matchingSlice";
-import { useDispatch } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 function AIMatching() {
-    const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     return (
-        <Root onClick={() => dispatch(enterMatching())}>
+        <Root onClick={() => navigate("/chat/find-mentor")}>
             <img src={aiMatchingIcon} alt="ai-matching" />
             <Title>AI로 고수 매칭 시작하기</Title>
             <ArrowIconContainer>

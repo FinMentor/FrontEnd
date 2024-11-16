@@ -1,10 +1,6 @@
-import { useDispatch } from "react-redux";
 import { Root, Title, ChatContainer, ChatProfile, ChatTitle, ReceiveMessage, ChatInfo } from "./ChatList.styles";
-import { enterChatRoom } from "@/states/chatSlice";
-import { setShowNavigator } from "@/states/navigatorSlice";
 
 function ChatList() {
-    const dispatch = useDispatch();
     const AI_CHAT_BOT = {
         imageLink: "",
         nickname: "AI채팅봇",
@@ -27,16 +23,11 @@ function ChatList() {
     ];
     chatList.unshift(AI_CHAT_BOT);
 
-    const toLink = roomId => {
-        dispatch(enterChatRoom(roomId));
-        dispatch(setShowNavigator(false));
-    };
-
     return (
         <Root>
             <Title>대화중인 채팅방</Title>
             {chatList.map(chat => (
-                <ChatContainer key={chat.nickname} onClick={() => toLink(chat.roomId)}>
+                <ChatContainer key={chat.nickname}>
                     <ChatProfile>{chat.imageLink}</ChatProfile>
                     <ChatInfo>
                         <ChatTitle>{chat.nickname}</ChatTitle>
