@@ -13,28 +13,34 @@ import {
     Input,
     SendButton,
 } from "./ChatRoom.styles";
+import { useDispatch } from "react-redux";
+import { setShowNavigator } from "@/states/navigatorSlice";
 
-function ChatRoom() {
+function ChatRoom({ showNavigator }) {
+    const dispatch = useDispatch();
+    if (!showNavigator) {
+        dispatch(setShowNavigator(false));
+    }
     const roomId = useSelector(state => state.chat.currentRoomId);
     const [messages, setMessages] = useState([
         {
             id: 1,
             sender: "User1",
-            content: "¾È³çÇÏ¼¼¿ä!",
+            content: "ì•ˆë…•í•˜ì„¸ìš”!",
             timestamp: "2024-03-20 10:30:00",
             type: "CHAT",
         },
         {
             id: 2,
             sender: "User2",
-            content: "¹Ý°©½À´Ï´Ù~",
+            content: "ã…Žã…‡",
             timestamp: "2024-03-20 10:31:00",
             type: "CHAT",
         },
         {
             id: 3,
             sender: "User1",
-            content: "¿À´Ã ³¯¾¾°¡ ÁÁ³×¿ä",
+            content: "?",
             timestamp: "2024-03-20 10:32:00",
             type: "CHAT",
         },
@@ -121,9 +127,9 @@ function ChatRoom() {
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyPress={e => e.key === "Enter" && sendMessage()}
-                    placeholder="¸Þ½ÃÁö¸¦ ÀÔ·ÂÇÏ¼¼¿ä..."
+                    placeholder="ë©”ì‹œì§€ë¥¼ ìž…ë ¥í•˜ì„¸ìš”..."
                 />
-                <SendButton onClick={sendMessage}>Àü¼Û</SendButton>
+                <SendButton onClick={sendMessage}>ë³´ë‚´ê¸°</SendButton>
             </InputContainer>
         </Root>
     );
