@@ -8,6 +8,12 @@ const router = createBrowserRouter([
         children: TABS.map(tab => ({
             path: tab.path,
             element: tab.element,
+            children: tab.subPage.map(subPage => {
+                return {
+                    path: subPage.path,
+                    element: subPage.element,
+                };
+            }),
         })),
     },
 ]);
