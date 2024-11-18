@@ -36,8 +36,9 @@ export const MentorInfo = styled.div`
 `;
 
 export const MentorCategory = styled.div`
-    font-size: 12px;
+    font-size: 14px;
     color: #949ba0;
+    font-family: "Pretendard-Regular";
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -45,16 +46,16 @@ export const MentorCategory = styled.div`
 `;
 
 export const MentorName = styled.div`
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 4px;
+    font-size: 16px;
+    font-family: "Pretendard-Medium";
+    margin-top: 5px;
     display: flex;
     align-items: center;
 `;
 
 export const MentorReturn = styled.div`
-    font-size: 12px;
+    font-size: 14px;
     color: #fd3018;
-    font-weight: bold;
-    margin-top: 4px;
+    font-family: "Pretendard-Regular";
+    margin-top: 7.5px;
 `;

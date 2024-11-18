@@ -46,15 +46,17 @@ function FindingMentor() {
     return (
         <MentorContainer>
             <h2>지금, 내가 찾고 있는 고수들</h2>
-            <Swiper spaceBetween={16} slidesPerView="auto" freeMode={true}>
+            <Swiper spaceBetween={45} slidesPerView="auto" freeMode={true}>
                 {mentors.map(mentor => (
-                    <SwiperSlide key={mentor.id} style={{ width: "250px" }}>
+                    <SwiperSlide key={mentor.id} style={{ width: "220px" }}>
                         <MentorCard>
                             <ProfileImage src={mentor.profileImage} alt={`${mentor.name} 프로필`} />
                             <MentorInfo>
                                 <MentorCategory>{mentor.category}</MentorCategory>
                                 <MentorName>{mentor.name}</MentorName>
-                                <MentorReturn>{mentor.monthlyReturn}</MentorReturn>
+                                <MentorReturn>
+                                    <span style={{ color: "#000000" }}>월간 수익률</span> {mentor.monthlyReturn}
+                                </MentorReturn>
                             </MentorInfo>
                         </MentorCard>
                     </SwiperSlide>
