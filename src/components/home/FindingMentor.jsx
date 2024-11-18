@@ -46,7 +46,7 @@ function FindingMentor() {
     return (
         <MentorContainer>
             <h2>지금, 내가 찾고 있는 고수들</h2>
-            <Swiper spaceBetween={45} slidesPerView="auto" freeMode={true}>
+            <Swiper spaceBetween={45} slidesPerView="auto" freeMode={true} style={{ paddingRight: "30px" }}>
                 {mentors.map(mentor => (
                     <SwiperSlide key={mentor.id} style={{ width: "220px" }}>
                         <MentorCard>
