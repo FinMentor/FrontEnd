@@ -1,5 +1,5 @@
 import Home from "@/components/tabs/Home";
-import About from "@/components/tabs/About";
+import Community from "@/components/tabs/Community";
 import Chat from "@/components/tabs/Chat";
 import Rank from "@/components/tabs/Rank";
 
@@ -16,7 +16,7 @@ export const TABS = [
         icon: HomeIcon,
     },
     {
-        element: <About />,
+        element: <Community />,
         path: "/community",
         name: "커뮤니티",
         icon: CommunityIcon,
