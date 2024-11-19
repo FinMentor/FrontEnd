@@ -1,20 +1,31 @@
+import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
-import { TABS } from "@/constant/tabs";
+import { useDispatch, useSelector } from "react-redux";
 
 const tabSlice = createSlice({
     name: "tab",
     initialState: {
-        currentTab: TABS[0].name,
+        currentTabIndex: 0,
     },
     reducers: {
-        setCurrentTab: (state, action) => {
-            const tab = TABS.find(t => t.path === action.payload);
-            if (tab) {
-                state.currentTab = tab.name;
-            }
+        setCurrentTabIndex: (state, action) => {
+            state.currentTabIndex = action.payload;
         },
     },
 });
 
-export const { setCurrentTab } = tabSlice.actions;
+export const selectCurrentTabIndex = state => state.tab.currentTabIndex;
+export const { setCurrentTabIndex } = tabSlice.actions;
+
+export function useCurrentTabIndex() {
+    const dispatch = useDispatch();
+    const setTabIndex = React.useCallback(
+        value => {
+            dispatch(setCurrentTabIndex(value));
+        },
+        [dispatch],
+    );
+    return [useSelector(selectCurrentTabIndex), setTabIndex];
+}
+
 export default tabSlice.reducer;

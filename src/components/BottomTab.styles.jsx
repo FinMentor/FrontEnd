@@ -23,3 +23,12 @@ export const NavLink = styled(Link)`
         margin-bottom: 5px;
     }
 `;
+
+export const IconWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 8px;
+`;
