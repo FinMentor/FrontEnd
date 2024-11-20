@@ -9,18 +9,18 @@ import {
     ProfitRankerCardName,
     ProfitRankerList,
 } from "./ProfitRank.styles";
+import PropTypes from "prop-types";
 
-function ProfitRanker() {
-    const monthlyProfitRankers = [
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-    ];
-    const weeklyProfitRankers = [
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-    ];
+ProfitRanker.propTypes = {
+    category: PropTypes.array,
+    monthlyRankers: PropTypes.array,
+    weeklyRankers: PropTypes.array,
+};
+
+function ProfitRanker({ category, weeklyRankers, monthlyRankers }) {
+    console.log(category);
+    const monthlyProfitRankers = monthlyRankers ? monthlyRankers : [];
+    const weeklyProfitRankers = weeklyRankers ? weeklyRankers : [];
 
     return (
         <Root>
@@ -30,7 +30,7 @@ function ProfitRanker() {
                     {monthlyProfitRankers.map((ranker, index) => (
                         <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>
@@ -41,7 +41,7 @@ function ProfitRanker() {
                     {weeklyProfitRankers.map((ranker, index) => (
                         <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>
