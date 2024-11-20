@@ -11,30 +11,9 @@ import CommunityInvertIcon from "@/assets/icons/community-invert-icon.svg?react"
 import RankingInvertIcon from "@/assets/icons/ranking-invert-icon.svg?react";
 import ChatInvertIcon from "@/assets/icons/chat-invert-icon.svg?react";
 import { CHAT_SUBPAGE } from "./pages";
-import ChatRoom from "@/pages/chat/ChatRoom";
-import FindMentor from "@/pages/chat/FindMentor";
-import ChatIndex from "@/pages/chat/ChatIndex";
 import Post from "@/pages/community/Post"; // 전체 게시판 글
 import Reply from "@/pages/community/Reply"; //답댓글
 // import PostMento from "@/components/community/PostMento"; // 노하우 게시판 글
-
-export const CHAT_SUBPAGE = [
-    {
-        element: <ChatIndex />,
-        name: "채팅",
-        path: "/chat",
-    },
-    {
-        element: <ChatRoom showNavigator={false} />,
-        name: "채팅방",
-        path: "/chat/room",
-    },
-    {
-        element: <FindMentor showNavigator={false} />,
-        name: "고수 찾기",
-        path: "/chat/find-mentor",
-    },
-];
 
 export const COMMUNITY_SUBPAGE = [
     {
