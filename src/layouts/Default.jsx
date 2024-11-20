@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -16,9 +15,12 @@ export default function DefaultLayout() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const showNavigator = useSelector(state => state.navigator.showNavigator);
     const targetTabIndex = TABS.findIndex(tab => tab.path === location.pathname);
     const targetPageIndex = PAGES.findIndex(page => page.path === location.pathname);
+    let showNavigator = true;
+    if (targetPageIndex !== -1) {
+        showNavigator = PAGES[targetPageIndex].showNavigator;
+    }
     console.log("targetTabIndex", targetTabIndex);
     console.log("targetPageIndex", targetPageIndex);
     useEffect(() => {
