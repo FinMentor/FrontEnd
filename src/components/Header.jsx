@@ -1,17 +1,23 @@
-import { Nav } from "./Header.styles";
+import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BackArrowIcon from "@/assets/icons/back-arrow.svg?react";
 import ShareIcon from "@/assets/icons/share-icon.svg?react";
 import MenuIcon from "@/assets/icons/menu-icon.svg?react";
 import { TABS } from "@/constant/tabs";
 import { useCurrentTabIndex } from "@/states/tabSlice";
-import { useRef } from "react";
+import { useCurrentPageIndex } from "@/states/pageSlice";
+import { TABS } from "@/constant/tabs";
+import { PAGES } from "@/constant/pages";
+import { Nav } from "./Header.styles";
 
 function Header() {
     const [currentTabIndex] = useCurrentTabIndex();
+    const [currentPageIndex] = useCurrentPageIndex();
     const currentPath = useLocation().pathname;
-    const isTab = currentTabIndex !== -1;
-    const currentTab = isTab ? TABS[currentTabIndex] : null;
+    const isTab = currentTabIndex != -1 ? true : false;
+    const currentTab = currentTabIndex != -1 ? TABS[currentTabIndex] : null;
+    const currentPage = currentPageIndex != -1 ? PAGES[currentPageIndex] : null;
+    const headerTitle = currentPage?.name ?? currentTab?.name;
     const navigate = useNavigate();
     const prevPath = useRef(currentPath);
 
@@ -22,6 +28,8 @@ function Header() {
     const handleBack = () => {
         navigate(-1);
     };
+    console.log("currentTabIndex", currentTabIndex);
+    console.log("currentPage", currentPage);
 
     // Post 페이지인지 확인
     const isPostPage = currentPath.includes("/community/post");
@@ -50,6 +58,7 @@ function Header() {
                     {currentTab?.name}
                 </>
             )}
+            {headerTitle}
         </Nav>
     );
 }
