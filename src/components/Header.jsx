@@ -6,7 +6,6 @@ import MenuIcon from "@/assets/icons/menu-icon.svg?react";
 import { TABS } from "@/constant/tabs";
 import { useCurrentTabIndex } from "@/states/tabSlice";
 import { useCurrentPageIndex } from "@/states/pageSlice";
-import { TABS } from "@/constant/tabs";
 import { PAGES } from "@/constant/pages";
 import { Nav } from "./Header.styles";
 
