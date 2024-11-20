@@ -9,18 +9,18 @@ import {
     ProfitRankerCardName,
     ProfitRankerList,
 } from "./ProfitRank.styles";
-import PropTypes from "prop-types";
 
-ProfitRanker.propTypes = {
-    category: PropTypes.array,
-    monthlyRankers: PropTypes.array,
-    weeklyRankers: PropTypes.array,
-};
-
-function ProfitRanker({ category, weeklyRankers, monthlyRankers }) {
-    console.log(category);
-    const monthlyProfitRankers = monthlyRankers ? monthlyRankers : [];
-    const weeklyProfitRankers = weeklyRankers ? weeklyRankers : [];
+function ProfitRanker() {
+    const monthlyProfitRankers = [
+        { name: "빽이", delta: 10, profileImage: "" },
+        { name: "빽이", delta: 10, profileImage: "" },
+        { name: "빽이", delta: 10, profileImage: "" },
+    ];
+    const weeklyProfitRankers = [
+        { name: "빽이", delta: 10, profileImage: "" },
+        { name: "빽이", delta: 10, profileImage: "" },
+        { name: "빽이", delta: 10, profileImage: "" },
+    ];
 
     return (
         <Root>
@@ -30,7 +30,7 @@ function ProfitRanker({ category, weeklyRankers, monthlyRankers }) {
                     {monthlyProfitRankers.map((ranker, index) => (
                         <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>
@@ -41,7 +41,7 @@ function ProfitRanker({ category, weeklyRankers, monthlyRankers }) {
                     {weeklyProfitRankers.map((ranker, index) => (
                         <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>

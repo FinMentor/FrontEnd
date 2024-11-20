@@ -21,12 +21,10 @@ export const CHAT_SUBPAGE = [
     },
 ];
 
-export const AUTH_PAGES = [
+export const PAGES = [
     {
         element: <Login />,
         name: "로그인",
         path: "/login",
     },
 ];
-
-export const PAGES = [...AUTH_PAGES, ...CHAT_SUBPAGE];

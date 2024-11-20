@@ -14,9 +14,6 @@ export const login = async (id, password) => {
                 password: password,
             },
             {
-                withCredentials: true,
-            },
-            {
                 headers: {
                     "Content-Type": "application/json", // JSON 형식으로 전송
                 },
@@ -24,9 +21,6 @@ export const login = async (id, password) => {
         );
 
         const { accessToken } = response.data.responseEntity.body;
-        if (!accessToken) {
-            throw new Error("로그인 실패");
-        }
         cookies.set("jwt", accessToken, { path: "/", maxAge: 60 * 60 * 24 * 7 });
     } catch (error) {
         console.error("로그인 실패:", error);
