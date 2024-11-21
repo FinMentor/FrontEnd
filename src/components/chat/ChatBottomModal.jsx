@@ -11,6 +11,7 @@ import {
     FollowSection,
     FollowButton,
     CompleteButton,
+    StarFill,
 } from "./ChatBottomModal.styles";
 import ChatModalExitIcon from "@/assets/icons/chat-modal-exit.svg?react";
 import axios from "axios";
@@ -18,10 +19,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { exitChatRoom } from "@/states/chatSlice";
 import { useNavigate } from "react-router-dom";
 
+// eslint-disable-next-line react/prop-types
 function ChatBottomModal({ isOpen, onClose }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { currentRoomId, expertNickname } = useSelector(state => state.chat);
+    const { currentRoomId } = useSelector(state => state.chat);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
@@ -80,15 +82,22 @@ function ChatBottomModal({ isOpen, onClose }) {
                             setShowRatingModal(false);
                             onClose();
                         }}
+                        style={{ alignSelf: "flex-start", cursor: "pointer" }}
                     />
                     <h2>고수님과의 채팅은 어땠나요?</h2>
                     <StarContainer>
                         {[...Array(5)].map((_, index) => {
                             const ratingValue = index + 1;
-                            return (
+                            return ratingValue <= (hover || rating) ? (
+                                <StarFill
+                                    key={index}
+                                    onClick={() => setRating(ratingValue)}
+                                    onMouseEnter={() => setHover(ratingValue)}
+                                    onMouseLeave={() => setHover(rating)}
+                                />
+                            ) : (
                                 <Star
                                     key={index}
-                                    filled={ratingValue <= (hover || rating)}
                                     onClick={() => setRating(ratingValue)}
                                     onMouseEnter={() => setHover(ratingValue)}
                                     onMouseLeave={() => setHover(rating)}
@@ -108,11 +117,11 @@ function ChatBottomModal({ isOpen, onClose }) {
                         ))}
                     </FeedbackOptions>
                     <FollowSection>
-                        <p>{expertNickname}님을 팔로우하시겠어요?</p>
                         <FollowButton onClick={() => setIsFollowing(!isFollowing)}>
                             {isFollowing ? "팔로잉" : "팔로우 하기"}
                         </FollowButton>
                     </FollowSection>
+                    <p style={{ fontSize: "14px", color: "#888888" }}>평가 후 채팅방은 자동 삭제됩니다.</p>
                     <CompleteButton onClick={handleComplete}>평가 작성 완료</CompleteButton>
                 </RatingModal>
             )}
