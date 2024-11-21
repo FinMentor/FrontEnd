@@ -9,39 +9,39 @@ import {
     ProfitRankerCardName,
     ProfitRankerList,
 } from "./ProfitRank.styles";
+import PropTypes from "prop-types";
 
-function ProfitRanker() {
-    const monthlyProfitRankers = [
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-    ];
-    const weeklyProfitRankers = [
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-        { name: "빽이", delta: 10, profileImage: "" },
-    ];
+ProfitRanker.propTypes = {
+    category: PropTypes.array,
+    monthlyRankers: PropTypes.array,
+    weeklyRankers: PropTypes.array,
+};
+
+function ProfitRanker({ category, weeklyRankers, monthlyRankers }) {
+    console.log(category);
+    const monthlyProfitRankers = monthlyRankers ? monthlyRankers : [];
+    const weeklyProfitRankers = weeklyRankers ? weeklyRankers : [];
 
     return (
         <Root>
             <MonthlyProfitContainer>
-                <MonthlyProfitTitle>월간 수익률이 높은 고수</MonthlyProfitTitle>
+                <MonthlyProfitTitle>월간 랭킹</MonthlyProfitTitle>
                 <ProfitRankerList>
-                    {monthlyProfitRankers.map(ranker => (
-                        <ProfitRankerCard key={ranker.name}>
+                    {monthlyProfitRankers.map((ranker, index) => (
+                        <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>
             </MonthlyProfitContainer>
             <WeeklyProfitContainer>
-                <WeeklyProfitTitle>주간 수익률이 높은 고수</WeeklyProfitTitle>
+                <WeeklyProfitTitle>주간 랭킹</WeeklyProfitTitle>
                 <ProfitRankerList>
-                    {weeklyProfitRankers.map(ranker => (
-                        <ProfitRankerCard key={ranker.name}>
+                    {weeklyProfitRankers.map((ranker, index) => (
+                        <ProfitRankerCard key={index}>
                             <ProfitRankerCardProfileImage />
-                            <ProfitRankerCardName>{ranker.name}</ProfitRankerCardName>
+                            <ProfitRankerCardName>{ranker.nickname}</ProfitRankerCardName>
                         </ProfitRankerCard>
                     ))}
                 </ProfitRankerList>

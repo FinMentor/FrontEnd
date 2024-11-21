@@ -1,4 +1,3 @@
-// eslint-disable-next-line prettier/prettier
 import { MentorContainer, MentorCard, ProfileImage, MentorInfo, MentorCategory, MentorName, MentorReturn } from "./FindingMentor.styles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
