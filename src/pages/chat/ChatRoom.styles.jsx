@@ -15,30 +15,41 @@ export const ChatContainer = styled.div`
 `;
 
 export const MessagesContainer = styled.div`
+    flex: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
+    padding-bottom: 40px;
 `;
 
 export const MessageWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: ${props => (props.isMine ? "flex-start" : "flex-end")};
+    align-items: ${props => (props.isMine ? "flex-end" : "flex-start")};
+    width: 100%;
     margin: 8px 0;
 `;
 
-export const MessageHeader = styled.div`
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 4px;
+export const MessageRow = styled.div`
+    display: flex;
+    flex-direction: ${props => (props.isMine ? "row" : "row-reverse")};
+    align-items: flex-end;
+    gap: 8px;
 `;
 
 export const MessageContent = styled.div`
+    background: ${props => (props.isMine ? "#60584C " : "#e9ecef")};
+    color: ${props => (props.isMine ? "#fff" : "#000")};
+    padding: 8px 12px;
+    border-radius: ${props => (props.isMine ? "16px 0 16px 16px" : "0 16px 16px 16px")};
     max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background-color: ${props => (props.isMine ? "#FFD400" : "#f0f0f0")};
-    color: ${props => (props.isMine ? "#000" : "#000")};
+    word-break: break-word;
+`;
+
+export const MessageTime = styled.span`
+    font-size: 12px;
+    color: #666;
 `;
 
 export const InputContainer = styled.div`
@@ -48,8 +59,8 @@ export const InputContainer = styled.div`
     border-top: 1px solid #eee;
     position: fixed;
     bottom: 0;
-    width: 100%;
     box-sizing: border-box;
+    width: 90%;
 `;
 
 export const Input = styled.input`
@@ -62,15 +73,8 @@ export const Input = styled.input`
 `;
 
 export const SendButton = styled.button`
-    padding: 12px 24px;
-    background-color: #ffd400;
     color: #000;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
-    font-weight: bold;
-
-    &:hover {
-        background-color: #e6bf00;
-    }
+    border-radius: 0%;
 `;

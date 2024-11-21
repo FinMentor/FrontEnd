@@ -4,7 +4,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 function Chat() {
     return (
         <Root>
-            <ErrorBoundary fallback={<div>에러 발생</div>}>
+            <ErrorBoundary>
                 <Outlet />
             </ErrorBoundary>
         </Root>

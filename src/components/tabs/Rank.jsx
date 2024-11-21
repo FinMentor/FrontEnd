@@ -3,10 +3,16 @@ import ProfitRanker from "@/components/rank/ProfitRanker";
 import { Root } from "./Rank.styles";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
-const getRankers = async () => {
+const getRankers = async condition => {
+    const params = {};
+    if (condition !== undefined) {
+        params.term = condition;
+    }
     const response = await axios.get("http://localhost:8080/api/v1/ranking", {
         withCredentials: true,
+        params: params,
     });
     return response.data.responseEntity.body;
 };
@@ -41,33 +47,44 @@ const getCategory = async () => {
 };
 
 function Rank() {
+    const [activeTab, setActiveTab] = useState(0);
+
     const { data: rankers } = useQuery({
         queryKey: ["rankers"],
         queryFn: () => getRankers(),
         select: data => data.mentorOfThreeDTOList,
     });
+
     const { data: category } = useQuery({
         queryKey: ["category"],
         queryFn: getCategory,
-        select: data => data.mainCategoryDTOList,
+        select: data => [{ mainCategoryId: 0, mainCategoryName: "전체" }, ...data.mainCategoryDTOList],
     });
 
     const { data: weeklyRankers } = useQuery({
-        queryKey: ["weeklyRankers"],
-        queryFn: () => getWeeklyRankers(1, "weekly"),
-        select: data => data.mentorOfThreeDTOList,
+        queryKey: ["weeklyRankers", activeTab],
+        queryFn: () => (activeTab === 0 ? getRankers("weekly") : getWeeklyRankers(activeTab, "weekly")),
+        select: data => data.mentorOfThreeDTOList || [],
+        enabled: !!category,
     });
 
     const { data: monthlyRankers } = useQuery({
-        queryKey: ["monthlyRankers"],
-        queryFn: () => getMonthlyRankers(1, "monthly"),
-        select: data => data.mentorOfThreeDTOList,
+        queryKey: ["monthlyRankers", activeTab],
+        queryFn: () => (activeTab === 0 ? getRankers("monthly") : getMonthlyRankers(activeTab, "monthly")),
+        select: data => data.mentorOfThreeDTOList || [],
+        enabled: !!category,
     });
 
     return (
         <Root>
             <TopRanker rankers={rankers} />
-            <ProfitRanker category={category} weeklyRankers={weeklyRankers} monthlyRankers={monthlyRankers} />
+            <ProfitRanker
+                category={category}
+                weeklyRankers={weeklyRankers}
+                monthlyRankers={monthlyRankers}
+                setActiveTab={setActiveTab}
+                activeTab={activeTab}
+            />
         </Root>
     );
 }

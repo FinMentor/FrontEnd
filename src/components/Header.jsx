@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BackArrowIcon from "@/assets/icons/back-arrow.svg?react";
 import ShareIcon from "@/assets/icons/share-icon.svg?react";
@@ -8,7 +8,9 @@ import { useCurrentTabIndex } from "@/states/tabSlice";
 import { useCurrentPageIndex } from "@/states/pageSlice";
 import { PAGES } from "@/constant/pages";
 import { Nav } from "./Header.styles";
-
+import ChatModalIcon from "@/assets/icons/chat-modal.svg?react";
+import ChatBottomModal from "@/components/chat/ChatBottomModal";
+import { useState } from "react";
 function Header() {
     const [currentTabIndex] = useCurrentTabIndex();
     const [currentPageIndex] = useCurrentPageIndex();
@@ -19,29 +21,36 @@ function Header() {
     const headerTitle = currentPage?.name ?? currentTab?.name;
     const navigate = useNavigate();
     const prevPath = useRef(currentPath);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     if (isTab) {
         prevPath.current = currentPath;
     }
+    useEffect(() => {
+        if (currentPage && currentPage.name !== "Ã¤ÆÃ") {
+            setIsModalOpen(false);
+        }
+    }, [currentTab, currentPage]);
 
     const handleBack = () => {
         navigate(-1);
     };
+
     console.log("currentTabIndex", currentTabIndex);
     console.log("currentPage", currentPage);
 
-    // Post í˜ì´ì§€ì¸ì§€ í™•ì¸
+    // Post ÆäÀÌÁöÀÎÁö È®ÀÎ
     const isPostPage = currentPath.includes("/community/post");
 
     return (
         <Nav>
             {isPostPage ? (
                 <>
-                    {/* ë’¤ë¡œê°€ê¸° ë²„íŠ¼ */}
+                    {/* µÚ·Î°¡±â ¹öÆ° */}
                     <BackArrowIcon onClick={handleBack} style={{ cursor: "pointer", width: "24px", height: "24px" }} />
-                    {/* ê°€ìš´ë° ê³µë°± (ìœ ì§€) */}
+                    {/* °¡¿îµ¥ °ø¹é (À¯Áö) */}
                     <div style={{ flex: 1 }}></div>
-                    {/* ì˜¤ë¥¸ìª½ ê³µìœ  ë° ë©”ë‰´ ì•„ì´ì½˜ */}
+                    {/* ¿À¸¥ÂÊ °øÀ¯ ¹× ¸Ş´º ¾ÆÀÌÄÜ */}
                     <div style={{ display: "flex", gap: "8px" }}>
                         <ShareIcon style={{ cursor: "pointer", width: "24px", height: "24px" }} />
                         <MenuIcon style={{ cursor: "pointer", width: "24px", height: "24px" }} />
@@ -52,12 +61,25 @@ function Header() {
                     {!isTab && (
                         <>
                             <BackArrowIcon onClick={handleBack} />
+                            {headerTitle}
+
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ display: "flex", gap: "8px" }}>
+                                <ChatModalIcon
+                                    onClick={() => setIsModalOpen(true)}
+                                    style={{ cursor: "pointer", width: "24px", height: "24px" }}
+                                />
+                            </div>
                         </>
                     )}
-                    {currentTab?.name}
                 </>
             )}
-            {headerTitle}
+            <ChatBottomModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                expertNickname="Àü¹®°¡´Ğ³×ÀÓ" // ½ÇÁ¦ Àü¹®°¡ ´Ğ³×ÀÓÀ¸·Î ±³Ã¼
+                chatroomId="1"
+            />
         </Nav>
     );
 }
