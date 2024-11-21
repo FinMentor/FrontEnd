@@ -47,10 +47,8 @@ export const MentorCard = styled.div`
 `;
 
 export const ProfileSection = styled.div`
-    flex: 1;
+    flex: 0.5;
     display: flex;
-    align-items: center;
-    justify-content: center;
 `;
 
 export const InfoSection = styled.div`
@@ -61,34 +59,34 @@ export const InfoSection = styled.div`
 `;
 
 export const ActionSection = styled.div`
-    flex: 1;
+    flex: 0.5;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    font-size: 14px;
+    padding-bottom: 40px;
+    font-family: "Pretendard-Regular";
 `;
 
 export const MentorProfileImage = styled.img`
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
     object-fit: cover;
 `;
 
 export const MentorCategory = styled.div`
     font-size: 12px;
-    color: #666;
+    color: #949ba0;
     font-family: "Pretendard-Regular";
 `;
 
 export const MentorName = styled.div`
     font-size: 16px;
-    font-weight: bold;
-    font-family: "Pretendard-Bold";
+    font-family: "Pretendard-SemiBold";
 `;
 
 export const MentorAnswerTime = styled.div`
-    font-size: 12px;
-    color: #888;
+    font-size: 14px;
     font-family: "Pretendard-Regular";
 `;
 

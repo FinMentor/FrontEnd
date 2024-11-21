@@ -1,124 +1,123 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import SockJS from "sockjs-client";
-import { Stomp } from "@stomp/stompjs";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
     Root,
     ChatContainer,
     MessagesContainer,
     MessageWrapper,
-    MessageHeader,
+    MessageRow,
     MessageContent,
+    MessageTime,
     InputContainer,
     Input,
-    SendButton,
 } from "./ChatRoom.styles";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { getUserInfo } from "@/utils/auth";
+import useWebSocket from "@/hooks/useWebSocket";
+import ChatSend from "@/assets/icons/chat-send.svg?react";
 import { useDispatch } from "react-redux";
-import { setShowNavigator } from "@/states/navigatorSlice";
+import { enterChatRoom, exitChatRoom } from "@/states/chatSlice";
+const API_URL = "http://localhost:8080/api/v1/chat/rooms/enter";
 
-function ChatRoom({ showNavigator }) {
+const getChatRooms = async id => {
+    const response = await axios.get(API_URL, {
+        withCredentials: true,
+        params: {
+            chatroomId: id,
+            size: 100,
+        },
+    });
+    return response.data.responseEntity.body.messageDetailsDTOList;
+};
+
+function ChatRoom() {
     const dispatch = useDispatch();
-    if (!showNavigator) {
-        dispatch(setShowNavigator(false));
-    }
-    const roomId = useSelector(state => state.chat.currentRoomId);
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            sender: "User1",
-            content: "안녕하세요!",
-            timestamp: "2024-03-20 10:30:00",
-            type: "CHAT",
-        },
-        {
-            id: 2,
-            sender: "User2",
-            content: "ㅎㅇ",
-            timestamp: "2024-03-20 10:31:00",
-            type: "CHAT",
-        },
-        {
-            id: 3,
-            sender: "User1",
-            content: "?",
-            timestamp: "2024-03-20 10:32:00",
-            type: "CHAT",
-        },
-    ]);
+    const location = useLocation();
+    const { chatroomId, expertNickname } = location.state || {};
+    const { memberId } = getUserInfo();
     const [input, setInput] = useState("");
-    const stompClient = useRef(null);
-    const currentUser = "User2";
+    const messageAreaRef = useRef(null);
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        const socket = new SockJS("http://localhost:8080/ws");
-        const client = Stomp.over(socket);
-
-        client.debug = null;
-
-        const headers = {
-            "Content-Type": "application/json;charset=UTF-8",
-        };
-
-        client.connect(headers, () => {
-            client.subscribe(`/topic/chat/room/${roomId}`, message => {
-                const receivedMessage = JSON.parse(message.body);
-                onMessageReceived(receivedMessage);
-            });
-
-            client.send(
-                "/app/chat.enter",
-                headers,
-                JSON.stringify({
-                    roomId: roomId,
-                    type: "ENTER",
-                }),
-            );
-        });
-
-        stompClient.current = client;
-
+        if (chatroomId) {
+            dispatch(enterChatRoom({ chatroomId, expertNickname }));
+        }
         return () => {
-            if (stompClient.current) {
-                stompClient.current.disconnect();
-            }
+            dispatch(exitChatRoom());
         };
-    }, [roomId]);
+    }, [chatroomId, dispatch, expertNickname]);
 
-    const onMessageReceived = message => {
-        const receivedMessage = JSON.parse(message.body);
-        setMessages(prevMessages => [...prevMessages, receivedMessage]);
-    };
+    const handleNewMessage = useCallback(newMessage => {
+        setMessages(prev => [...prev, newMessage]);
+    }, []);
 
-    const sendMessage = () => {
-        if (stompClient.current && input.trim() !== "") {
-            const headers = {
-                "Content-Type": "application/json;charset=UTF-8",
-            };
+    const { isConnected, sendMessage } = useWebSocket(chatroomId, handleNewMessage);
+    const { data: messagesData } = useQuery({
+        queryKey: ["message", chatroomId],
+        queryFn: () => getChatRooms(chatroomId),
+    });
 
+    useEffect(() => {
+        setMessages(messagesData);
+    }, [messagesData]);
+
+    useEffect(() => {
+        if (messageAreaRef.current) {
+            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+        }
+    }, [messages]);
+
+    const handleSendMessage = () => {
+        if (!input.trim() || !isConnected) return;
+
+        try {
             const message = {
-                sender: "User",
-                content: input,
-                type: "CHAT",
+                memberId,
+                chatroomId,
+                content: input.trim(),
+                messageType: "N",
             };
 
-            stompClient.current.send("/app/chat", headers, JSON.stringify(message));
+            sendMessage(message);
             setInput("");
+        } catch (error) {
+            console.error("메시지 전송 실패:", error);
         }
     };
+    const handleKeyPress = e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+    const formatTime = dateString => {
+        const date = new Date(dateString);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
 
+        const ampm = hours >= 12 ? "오후" : "오전";
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = minutes.toString().padStart(2, "0");
+
+        return `${ampm} ${formattedHours}:${formattedMinutes}`;
+    };
     return (
         <Root>
-            <ChatContainer>
+            <ChatContainer ref={messageAreaRef}>
                 <MessagesContainer>
-                    {messages.map(message => (
-                        <MessageWrapper key={message.id} isMine={message.sender === currentUser}>
-                            <MessageHeader>
-                                <span>{message.sender}</span>
-                                <span style={{ marginLeft: "8px" }}>{message.timestamp}</span>
-                            </MessageHeader>
-                            <MessageContent isMine={message.sender === currentUser}>{message.content}</MessageContent>
-                        </MessageWrapper>
-                    ))}
+                    {messages?.map((message, index) => {
+                        const isMine = message.memberId === memberId;
+                        return (
+                            <MessageWrapper key={index} isMine={isMine}>
+                                <MessageRow isMine={isMine}>
+                                    <MessageTime>{formatTime(message.createdAt)}</MessageTime>
+                                    <MessageContent isMine={isMine}>{message.content}</MessageContent>
+                                </MessageRow>
+                            </MessageWrapper>
+                        );
+                    })}
                 </MessagesContainer>
             </ChatContainer>
             <InputContainer>
@@ -126,10 +125,10 @@ function ChatRoom({ showNavigator }) {
                     type="text"
                     value={input}
                     onChange={e => setInput(e.target.value)}
-                    onKeyPress={e => e.key === "Enter" && sendMessage()}
+                    onKeyPress={handleKeyPress}
                     placeholder="메시지를 입력하세요..."
                 />
-                <SendButton onClick={sendMessage}>보내기</SendButton>
+                <ChatSend onClick={handleSendMessage} />
             </InputContainer>
         </Root>
     );
