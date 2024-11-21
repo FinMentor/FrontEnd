@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-export const Root = styled.div``;
+export const Root = styled.div`
+    margin-bottom: 70px;
+`;
 
 export const Title = styled.p`
     font-family: "Pretendard-SemiBold";

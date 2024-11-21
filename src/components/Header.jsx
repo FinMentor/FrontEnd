@@ -38,7 +38,6 @@ function Header() {
             setIsModalOpen(false);
         }
     }, [currentTab, currentPage]);
-
     // 뒤로가기 핸들러
     const handleBack = () => {
         navigate(-1);
@@ -85,14 +84,12 @@ function Header() {
                         <>{headerTitle}</>
                     )}
                     {/* 뒤로가기 버튼 (서브페이지가 없을 때만 표시) */}
-                    {currentSubPage ? (
+                    {currentPage?.subPage ? (
                         <BackArrowIcon
                             onClick={handleBack}
                             style={{ cursor: "pointer", width: "24px", height: "24px" }}
                         />
                     ) : null}
-                    {/* 헤더 제목 */}
-                    <span>{headerTitle}</span>
                 </>
             )}
             <ChatBottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
