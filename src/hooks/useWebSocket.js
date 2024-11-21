@@ -77,6 +77,7 @@ const useWebSocket = (roomId, onMessageReceived) => {
                 body: JSON.stringify({
                     chatroomId: roomId,
                     content: messageData.content,
+                    memberId: messageData.memberId,
                     timestamp: new Date(),
                 }),
             });

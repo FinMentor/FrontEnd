@@ -9,19 +9,18 @@ import { OutletContainer } from "./Default.styles";
 import { TABS } from "@/constant/tabs";
 import { PAGES } from "@/constant/pages";
 import ErrorBoundary from "@/components/ErrorBoundary";
-
 export default function DefaultLayout() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const targetTabIndex = TABS.findIndex(tab => location.pathname.startsWith(tab.path));
-    const targetPageIndex = PAGES.findIndex(page => location.pathname.startsWith(page.path));
+    const targetTabIndex = TABS.findIndex(tab => tab.path === location.pathname);
+    const targetPageIndex = PAGES.findIndex(page => page.path === location.pathname);
 
     let showNavigator = true;
     if (targetPageIndex !== -1) {
         showNavigator = PAGES[targetPageIndex].showNavigator;
     }
-
+    console.log("targetTabIndex", showNavigator);
     useEffect(() => {
         dispatch(setCurrentTabIndex(targetTabIndex));
         dispatch(setCurrentPage(targetPageIndex));
