@@ -2,8 +2,10 @@ import { BannerContainer, BannerContent, BannerText, StartButton, Logo } from ".
 import BackgroundImage from "@/assets/imgs/home/main-banner.png";
 import LogoImage from "@/assets/imgs/home/main-banner-logo.png";
 import ChatIcon from "@/assets/icons/main-banner-chat-icon.svg";
+import { useNavigate } from "react-router-dom";
 
 function MainBanner() {
+    const navigate = useNavigate();
     return (
         <BannerContainer style={{ backgroundImage: `url(${BackgroundImage})` }}>
             <BannerContent>
@@ -15,7 +17,7 @@ function MainBanner() {
                     </h1>
                     <p>AI를 통해 고수를 추천받을 수 있습니다.</p>
                 </BannerText>
-                <StartButton>
+                <StartButton onClick={() => navigate("/chat/find-mentor")}>
                     <img src={ChatIcon} alt="Chat Icon" />
                     시작하기
                 </StartButton>

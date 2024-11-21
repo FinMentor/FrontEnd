@@ -6,7 +6,7 @@ export const MentorContainer = styled.div`
 
     h2 {
         margin: 0 0 20px 0;
-        font-family: "Pretendard Bold";
+        font-family: "Pretendard-Bold";
         font-size: 24px;
     }
 `;
@@ -38,7 +38,7 @@ export const MentorInfo = styled.div`
 export const MentorCategory = styled.div`
     font-size: 14px;
     color: #949ba0;
-    font-family: "Pretendard-Regular";
+    font-family: "Pretendard Light";
     display: flex;
     align-items: center;
     justify-content: space-between;
