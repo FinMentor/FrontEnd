@@ -12,7 +12,6 @@ import {
     MentorCategory,
     MentorName,
     MentorAnswerTime,
-    MoreButton,
     FloatingButton,
 } from "./FindMentor.styles";
 import axios from "axios";
@@ -20,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import chatStartIcon from "../../assets/icons/chat-start.svg";
 import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
+import answerTime from "@/utils/answerTime";
 
 MentorList.propTypes = {
     selectedCategory: PropTypes.number.isRequired,
@@ -43,6 +43,35 @@ function MentorList({ selectedCategory, onMentorSelect, selectedMentorId }) {
         retry: false,
     });
 
+    const navigate = useNavigate();
+
+    const handleStartChat = async () => {
+        if (selectedMentorId !== null) {
+            try {
+                const selectedMentor = topMentor[selectedMentorId];
+                const chatRoomData = {
+                    subject: `${selectedMentor.mainCategoryName} 상담`,
+                    memberId: selectedMentor.memberId,
+                };
+
+                const response = await axios.post("http://localhost:8080/api/v1/chatroom/create", chatRoomData, {
+                    withCredentials: true,
+                });
+
+                // 채팅방 생성 성공 시 해당 채팅방으로 이동
+                if (response.data.responseEntity.body) {
+                    const chatroomId = response.data.responseEntity.body.chatroomId;
+                    navigate("/chat/room", {
+                        state: { chatroomId },
+                    });
+                }
+            } catch (error) {
+                console.error("채팅방 생성 실패:", error);
+                alert("채팅방 생성에 실패했습니다. 다시 시도해주세요.");
+            }
+        }
+    };
+    const defaultProfileImage = "/images/default-profile.png";
     return (
         <>
             <Title>
@@ -60,20 +89,31 @@ function MentorList({ selectedCategory, onMentorSelect, selectedMentorId }) {
                 >
                     <ProfileSection>
                         <MentorProfileImage
-                            src={item.profileImageUrl || "default-profile-image.png"}
-                            alt="mentor profile"
+                            src={
+                                item.receiverProfileUrl
+                                    ? `http://localhost:8080${item.receiverProfileUrl}`
+                                    : `http://localhost:8080${defaultProfileImage}`
+                            }
+                            onError={e => {
+                                e.target.onerror = null; // 무한 루프 방지
+                                e.target.src = defaultProfileImage;
+                            }}
                         />
                     </ProfileSection>
                     <InfoSection>
                         <MentorCategory>{item.mainCategoryName}</MentorCategory>
                         <MentorName>{item.nickname}</MentorName>
-                        <MentorAnswerTime>{item.answerTime}</MentorAnswerTime>
+                        <MentorAnswerTime>상담 가능 시간 {answerTime(item.answerTime)}</MentorAnswerTime>
                     </InfoSection>
-                    <ActionSection>
-                        <MoreButton>⋮</MoreButton>
-                    </ActionSection>
+                    <ActionSection>더보기 {">"} </ActionSection>
                 </MentorCard>
             ))}
+            {selectedMentorId != undefined && (
+                <FloatingButton onClick={handleStartChat} visible={selectedMentorId != undefined}>
+                    <img src={chatStartIcon} alt="chat start" />
+                    시작하기
+                </FloatingButton>
+            )}
         </>
     );
 }
@@ -99,13 +139,6 @@ function FindMentor() {
     ];
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedMentorId, setSelectedMentorId] = useState(null);
-    const navigate = useNavigate();
-
-    const handleStartChat = () => {
-        if (selectedMentorId) {
-            navigate(`/chat/room/${selectedMentorId}`);
-        }
-    };
 
     const handleMentorSelect = mentorId => {
         setSelectedMentorId(mentorId);
@@ -149,13 +182,6 @@ function FindMentor() {
                         selectedMentorId={selectedMentorId}
                     />
                 </Suspense>
-            )}
-            {selectedMentorId}
-            {selectedMentorId != undefined && (
-                <FloatingButton onClick={handleStartChat} visible={selectedMentorId != undefined}>
-                    <img src={chatStartIcon} alt="chat start" />
-                    시작하기
-                </FloatingButton>
             )}
         </Root>
     );

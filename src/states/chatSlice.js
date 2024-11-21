@@ -5,15 +5,18 @@ const chatSlice = createSlice({
     initialState: {
         isInChatRoom: false,
         currentRoomId: null,
+        expertNickname: null,
     },
     reducers: {
         enterChatRoom: (state, action) => {
             state.isInChatRoom = true;
-            state.currentRoomId = action.payload;
+            state.currentRoomId = action.payload.chatroomId;
+            state.expertNickname = action.payload.expertNickname;
         },
         exitChatRoom: state => {
             state.isInChatRoom = false;
             state.currentRoomId = null;
+            state.expertNickname = null;
         },
     },
 });

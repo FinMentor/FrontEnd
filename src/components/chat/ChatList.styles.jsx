@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-
+import { Link } from "react-router-dom";
 export const Root = styled.div``;
 
 export const Title = styled.p`
@@ -14,12 +14,13 @@ export const ChatContainer = styled.div`
     height: 70px;
 `;
 
-export const ChatProfile = styled.p`
-    background-color: #bbbbbb;
+export const ChatProfile = styled.img`
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    flex-shrink: 0;
+    margin-right: 16px;
+    object-fit: cover;
+    background-color: #f0f0f0; // 이미지 로딩 전 배경색
 `;
 export const ChatInfo = styled.div`
     display: flex;
@@ -39,4 +40,9 @@ export const ReceiveMessage = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+`;
+
+export const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: inherit;
 `;
