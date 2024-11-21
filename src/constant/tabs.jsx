@@ -11,22 +11,7 @@ import CommunityInvertIcon from "@/assets/icons/community-invert-icon.svg?react"
 import RankingInvertIcon from "@/assets/icons/ranking-invert-icon.svg?react";
 import ChatInvertIcon from "@/assets/icons/chat-invert-icon.svg?react";
 import { CHAT_SUBPAGE } from "./pages";
-import Post from "@/pages/community/Post"; // 전체 게시판 글
-import Reply from "@/pages/community/Reply"; //답댓글
-// import PostMento from "@/components/community/PostMento"; // 노하우 게시판 글
-
-export const COMMUNITY_SUBPAGE = [
-    {
-        element: <Post showNavigator={false} />, // 전체 게시판 글 디테일 페이지
-        name: "전체 게시판 글",
-        path: "post/:postId", // 서브페이지 경로
-    },
-    {
-        element: <Reply showNavigator={false} />, // 댓글 답장 페이지
-        name: "댓글 답장",
-        path: "reply/:commentId", // 댓글 답장 서브페이지 경로
-    },
-];
+import { COMMUNITY_SUBPAGE } from "./pages";
 
 export const TABS = [
     {

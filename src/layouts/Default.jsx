@@ -1,7 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { setCurrentTabIndex } from "@/states/tabSlice";
 import { setCurrentPage } from "@/states/pageSlice";
 import Header from "@/components/Header";
@@ -15,18 +14,19 @@ export default function DefaultLayout() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const targetTabIndex = TABS.findIndex(tab => tab.path === location.pathname);
-    const targetPageIndex = PAGES.findIndex(page => page.path === location.pathname);
+    const targetTabIndex = TABS.findIndex(tab => location.pathname.startsWith(tab.path));
+    const targetPageIndex = PAGES.findIndex(page => location.pathname.startsWith(page.path));
+
     let showNavigator = true;
     if (targetPageIndex !== -1) {
         showNavigator = PAGES[targetPageIndex].showNavigator;
     }
-    console.log("targetTabIndex", targetTabIndex);
-    console.log("targetPageIndex", targetPageIndex);
+
     useEffect(() => {
         dispatch(setCurrentTabIndex(targetTabIndex));
         dispatch(setCurrentPage(targetPageIndex));
     }, [dispatch, targetTabIndex, targetPageIndex]);
+
     return (
         <>
             <ErrorBoundary fallback={<div>에러 발생</div>}>
