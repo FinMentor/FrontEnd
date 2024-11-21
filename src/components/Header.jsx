@@ -4,34 +4,32 @@ import BackArrowIcon from "@/assets/icons/back-arrow.svg?react";
 import ShareIcon from "@/assets/icons/share-icon.svg?react";
 import MenuIcon from "@/assets/icons/menu-icon.svg?react";
 import { TABS } from "@/constant/tabs";
-import { useCurrentTabIndex } from "@/states/tabSlice";
-import { useCurrentPageIndex } from "@/states/pageSlice";
-import { PAGES } from "@/constant/pages";
 import { Nav } from "./Header.styles";
 import ChatModalIcon from "@/assets/icons/chat-modal.svg?react";
 import ChatBottomModal from "@/components/chat/ChatBottomModal";
 import { useState } from "react";
 function Header() {
-    const [currentTabIndex] = useCurrentTabIndex();
-    const [currentPageIndex] = useCurrentPageIndex();
     const currentPath = useLocation().pathname;
-    const isTab = currentTabIndex != -1 ? true : false;
-    const currentTab = currentTabIndex != -1 ? TABS[currentTabIndex] : null;
-    const currentPage = currentPageIndex != -1 ? PAGES[currentPageIndex] : null;
-    const headerTitle = currentPage?.name ?? currentTab?.name;
     const navigate = useNavigate();
     const prevPath = useRef(currentPath);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // í˜„ì¬ í™œì„±í™”ëœ íƒ­ ë° ì„œë¸Œí˜ì´ì§€ ê³„ì‚°
+    const currentTab = TABS.find(tab => currentPath === tab.path || currentPath.startsWith(`${tab.path}/`));
+    const currentSubPage = currentTab?.subPage?.find(sub => currentPath.startsWith(`${currentTab.path}/${sub.path}`));
 
     if (isTab) {
         prevPath.current = currentPath;
     }
     useEffect(() => {
-        if (currentPage && currentPage.name !== "Ã¤ÆÃ") {
+        if (currentPage && currentPage.name !== "Ã¤ï¿½ï¿½") {
             setIsModalOpen(false);
         }
     }, [currentTab, currentPage]);
+    // í—¤ë” ì œëª© ì„¤ì •: ì„œë¸Œí˜ì´ì§€ ì´ë¦„ ìš°ì„ , ì—†ìœ¼ë©´ íƒ­ ì´ë¦„
+    const headerTitle = currentSubPage?.name || currentTab?.name || "í˜ì´ì§€ ì—†ìŒ";
 
+    // ë’¤ë¡œê°€ê¸° í•¸ë“¤ëŸ¬
     const handleBack = () => {
         navigate(-1);
     };
@@ -39,18 +37,34 @@ function Header() {
     console.log("currentTabIndex", currentTabIndex);
     console.log("currentPage", currentPage);
 
-    // Post ÆäÀÌÁöÀÎÁö È®ÀÎ
+    // Post ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     const isPostPage = currentPath.includes("/community/post");
+
+    // Post í˜ì´ì§€ì¸ì§€ í™•ì¸ (ì˜ˆ: /community/post, /community/mentor/post)
+    const isPostPage = currentPath.includes("/community/post") || currentPath.includes("/community/mentor/post");
+    // WritePost í˜ì´ì§€ì¸ì§€ í™•ì¸
+    const isWritePostPage = currentPath.includes("/community/write");
+
+    console.log("currentPath:", currentPath);
+    console.log("currentTab:", currentTab);
+    console.log("currentSubPage:", currentSubPage);
+
+    // WritePost í˜ì´ì§€ì—ì„œëŠ” í—¤ë”ë¥¼ ìˆ¨ê¹€
+    if (isWritePostPage) {
+        return null;
+    }
 
     return (
         <Nav>
             {isPostPage ? (
                 <>
-                    {/* µÚ·Î°¡±â ¹öÆ° */}
+                    {/* ï¿½Ú·Î°ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° */}
                     <BackArrowIcon onClick={handleBack} style={{ cursor: "pointer", width: "24px", height: "24px" }} />
-                    {/* °¡¿îµ¥ °ø¹é (À¯Áö) */}
+                    {/* ï¿½ï¿½ï¿½îµ¥ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) */}
+                    {/* ê°€ìš´ë° ê³µë°± */}
                     <div style={{ flex: 1 }}></div>
-                    {/* ¿À¸¥ÂÊ °øÀ¯ ¹× ¸Ş´º ¾ÆÀÌÄÜ */}
+                    {/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */}
+                    {/* ê³µìœ  ë° ë©”ë‰´ ì•„ì´ì½˜ */}
                     <div style={{ display: "flex", gap: "8px" }}>
                         <ShareIcon style={{ cursor: "pointer", width: "24px", height: "24px" }} />
                         <MenuIcon style={{ cursor: "pointer", width: "24px", height: "24px" }} />
@@ -72,12 +86,21 @@ function Header() {
                             </div>
                         </>
                     )}
+                    {/* ë’¤ë¡œê°€ê¸° ë²„íŠ¼ (ì„œë¸Œí˜ì´ì§€ê°€ ì—†ì„ ë•Œë§Œ í‘œì‹œ) */}
+                    {currentSubPage ? (
+                        <BackArrowIcon
+                            onClick={handleBack}
+                            style={{ cursor: "pointer", width: "24px", height: "24px" }}
+                        />
+                    ) : null}
+                    {/* í—¤ë” ì œëª© */}
+                    <span>{headerTitle}</span>
                 </>
             )}
             <ChatBottomModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                expertNickname="Àü¹®°¡´Ğ³×ÀÓ" // ½ÇÁ¦ Àü¹®°¡ ´Ğ³×ÀÓÀ¸·Î ±³Ã¼
+                expertNickname="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ³ï¿½ï¿½ï¿½" // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
                 chatroomId="1"
             />
         </Nav>
