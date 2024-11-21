@@ -34,7 +34,7 @@ function ProfitRanker({ category, weeklyRankers, monthlyRankers, setActiveTab, a
         <Root>
             {category && (
                 <Swiper
-                    spaceBetween={3}
+                    spaceBetween={5}
                     slidesPerView={4.5}
                     onSlideChange={swiper => setActiveTab(swiper.activeIndex)}
                     style={swiperStyle}

@@ -13,11 +13,13 @@ export const Root = styled.div`
 
 export const MonthlyProfitContainer = styled.div`
     border-radius: 16px;
+    padding-top: 16px;
 `;
 
 export const MonthlyProfitTitle = styled.h2`
     font-family: "Pretendard-Bold";
     font-size: 24px;
+    margin-top: 24px;
 `;
 
 export const WeeklyProfitContainer = styled.div`
@@ -27,12 +29,16 @@ export const WeeklyProfitContainer = styled.div`
 export const WeeklyProfitTitle = styled.h2`
     font-family: "Pretendard-Bold";
     font-size: 24px;
+    margin-top: 36px;
 `;
 
 export const ProfitRankerList = styled.ul`
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    justify-content: space-between;
+    width: calc(100% - 1px);
+    margin-left: -20px;
+    padding-top: 24px;
 `;
 
 export const ProfitRankerCard = styled.div`
@@ -51,24 +57,26 @@ export const ProfitRankerCardProfileImage = styled.img`
 export const ProfitRankerCardName = styled.h3`
     font-family: "Pretendard-Medium";
     font-size: 16px;
+    text-align: center;
+    margin: 16px 0 0 0;
 `;
 
 export const TabContainer = styled.div`
     display: flex;
     border-bottom: 1px solid #e0e0e0;
     margin-top: 8px;
-    margin-left: -24px; /* Root의 padding과 맞추기 위해 좌우로 마이너스 마진 추가 */
+    margin-left: -24px;
     margin-right: -24px;
-    padding: 0 24px; /* 줄이 양쪽 끝까지 가도록 padding 추가 */
+    padding: 0 24px;
 `;
 
 export const Tab = styled.button`
-    width: auto; /* 탭이 꽉 차지 않도록 설정 */
-    padding: 16px;
+    width: 80px;
+    padding: 12px 8px 12px 8px;
     background: none;
     border: none;
-    font-size: 24px;
-    font-family: "Pretendard-Medium";
+    font-size: 22px;
+    font-family: "Pretendard-Regular";
     cursor: pointer;
     color: ${({ active }) => (active ? "#000" : "#757575")};
     font-weight: ${({ active }) => (active ? "bold" : "normal")};
@@ -77,6 +85,7 @@ export const Tab = styled.button`
 `;
 
 export const ProfitRankerCardCategory = styled.p`
-    font-family: "Pretendard-Medium";
+    font-family: "Pretendard-Regular";
     font-size: 14px;
+    color: #919db0;
 `;
