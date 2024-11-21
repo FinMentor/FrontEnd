@@ -58,11 +58,10 @@ function Header() {
                 </>
             ) : (
                 <>
-                    {!isTab && (
+                    {!isTab ? (
                         <>
                             <BackArrowIcon onClick={handleBack} />
                             {headerTitle}
-
                             <div style={{ flex: 1 }}></div>
                             <div style={{ display: "flex", gap: "8px" }}>
                                 <ChatModalIcon
@@ -71,15 +70,12 @@ function Header() {
                                 />
                             </div>
                         </>
+                    ) : (
+                        <>{headerTitle}</>
                     )}
                 </>
             )}
-            <ChatBottomModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                expertNickname="전문가닉네임" // 실제 전문가 닉네임으로 교체
-                chatroomId="1"
-            />
+            <ChatBottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </Nav>
     );
 }

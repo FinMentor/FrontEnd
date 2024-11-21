@@ -78,3 +78,21 @@ export const SendButton = styled.button`
     cursor: pointer;
     border-radius: 0%;
 `;
+
+export const ReceiverInfoContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+`;
+
+export const ReceiverProfile = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+`;
+
+export const ReceiverName = styled.div`
+    font-weight: 500;
+    font-size: 16px;
+`;

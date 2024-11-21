@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import StarIcon from "@/assets/icons/star.svg?react";
-
+import StarFillIcon from "@/assets/icons/chat-star-fill.svg?react";
 export const ModalOverlay = styled.div`
     position: fixed;
     top: 0;
@@ -43,7 +43,6 @@ export const RatingModal = styled(ModalContent)`
 export const StarContainer = styled.div`
     display: flex;
     gap: 10px;
-    margin: 20px 0;
 `;
 
 export const Star = styled(StarIcon)`
@@ -51,19 +50,25 @@ export const Star = styled(StarIcon)`
     font-size: 30px;
     color: ${props => (props.filled ? "#FFD700" : "#ddd")};
 `;
-
+export const StarFill = styled(StarFillIcon)`
+    cursor: pointer;
+    font-size: 30px;
+    color: #ffbc00;
+`;
 export const FeedbackOptions = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 20px;
+    font-size: 16px;
     flex-wrap: wrap;
-    justify-content: center;
-    margin: 15px 0;
+    flex-direction: row;
 `;
 
 export const FeedbackOption = styled.button`
     padding: 8px 16px;
     border: 1px solid #ffbc00;
     border-radius: 20px;
+    width: 100px;
+    height: 100px;
     background: ${props => (props.selected ? "#ffbc00" : "white")};
     color: ${props => (props.selected ? "white" : "black")};
     cursor: pointer;
@@ -74,7 +79,6 @@ export const FollowSection = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin: 20px 0;
 `;
 
 export const FollowButton = styled.button`

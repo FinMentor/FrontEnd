@@ -18,16 +18,10 @@ const fetchChatList = async () => {
 };
 
 function ChatList() {
-    const AI_CHAT_BOT = {
-        imageLink: "",
-        receiverNickName: "AI채팅봇",
-        lastMessage: "회원님께 필요한 고수를 추천해드립니다.",
-        roomId: "1",
-    };
     const { data: chatRoom } = useQuery({
         queryKey: ["chatRoom"],
         queryFn: () => fetchChatList(),
-        select: data => [AI_CHAT_BOT, ...data],
+        select: data => [...data],
         staleTime: 0,
         cacheTime: 0,
         refetchOnWindowFocus: true,
@@ -38,7 +32,16 @@ function ChatList() {
         <Root>
             <Title>대화중인 채팅방</Title>
             {chatRoom?.map((chat, index) => (
-                <StyledLink to={`/chat/room`} key={index} state={{ chatroomId: chat.chatroomId }}>
+                <StyledLink
+                    to={`/chat/room`}
+                    key={index}
+                    state={{
+                        chatroomId: chat.chatroomId,
+                        receiverId: chat.receiverId,
+                        receiverNickName: chat.receiverNickName,
+                        receiverProfileUrl: chat.receiverProfileUrl,
+                    }}
+                >
                     <ChatContainer>
                         {chat.receiverProfileUrl ? (
                             <ChatProfile

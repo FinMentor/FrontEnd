@@ -10,6 +10,9 @@ import {
     MessageTime,
     InputContainer,
     Input,
+    ReceiverInfoContainer,
+    ReceiverProfile,
+    ReceiverName,
 } from "./ChatRoom.styles";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -34,7 +37,7 @@ const getChatRooms = async id => {
 function ChatRoom() {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { chatroomId, expertNickname } = location.state || {};
+    const { chatroomId, receiverNickName, receiverProfileUrl } = location.state || {};
     const { memberId } = getUserInfo();
     const [input, setInput] = useState("");
     const messageAreaRef = useRef(null);
@@ -42,12 +45,12 @@ function ChatRoom() {
 
     useEffect(() => {
         if (chatroomId) {
-            dispatch(enterChatRoom({ chatroomId, expertNickname }));
+            dispatch(enterChatRoom({ chatroomId, receiverNickName }));
         }
         return () => {
             dispatch(exitChatRoom());
         };
-    }, [chatroomId, dispatch, expertNickname]);
+    }, [chatroomId, dispatch, receiverNickName]);
 
     const handleNewMessage = useCallback(newMessage => {
         setMessages(prev => [...prev, newMessage]);
@@ -65,7 +68,7 @@ function ChatRoom() {
 
     useEffect(() => {
         if (messageAreaRef.current) {
-            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight;
+            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight + 50;
         }
     }, [messages]);
 
@@ -111,6 +114,15 @@ function ChatRoom() {
                         const isMine = message.memberId === memberId;
                         return (
                             <MessageWrapper key={index} isMine={isMine}>
+                                {!isMine && (
+                                    <ReceiverInfoContainer>
+                                        <ReceiverProfile
+                                            src={`http://localhost:8080${receiverProfileUrl}`}
+                                            alt={`${receiverNickName}의 프로필`}
+                                        />
+                                        <ReceiverName>{receiverNickName}</ReceiverName>
+                                    </ReceiverInfoContainer>
+                                )}
                                 <MessageRow isMine={isMine}>
                                     <MessageTime>{formatTime(message.createdAt)}</MessageTime>
                                     <MessageContent isMine={isMine}>{message.content}</MessageContent>
