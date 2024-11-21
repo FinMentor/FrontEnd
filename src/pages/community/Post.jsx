@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setShowNavigator } from "@/states/navigatorSlice";
@@ -38,6 +38,32 @@ function Post({ showNavigator }) {
     // 댓글 도움 상태
     const [helpfulComments, setHelpfulComments] = useState([]);
 
+    // 댓글 목록 상태
+    const [comments, setComments] = useState([
+        {
+            id: 1,
+            author: "snrn",
+            authorProfile: "", // 댓글 작성자 프로필 이미지
+            role: "expert",
+            content: "안녕하세요! 바이오 주식은 변동성이 크기 때문에 장기 투자를 권장합니다.",
+            createdAt: "32분 전",
+        },
+        {
+            id: 2,
+            author: "normalUser",
+            authorProfile: "", // 프로필 이미지 없음
+            role: "normal",
+            content: "저도 궁금합니다!",
+            createdAt: "30분 전",
+        },
+    ]);
+
+    // 댓글 입력 상태
+    const [newCommentContent, setNewCommentContent] = useState("");
+
+    // 댓글 섹션의 마지막 댓글을 참조
+    const lastCommentRef = useRef(null);
+
     // 댓글 도움 상태 토글
     const toggleHelp = commentId => {
         setHelpfulComments(
@@ -46,6 +72,28 @@ function Post({ showNavigator }) {
                     ? prev.filter(id => id !== commentId) // ID 제거
                     : [...prev, commentId], // ID 추가
         );
+    };
+
+    // 댓글 등록 핸들러
+    const handleSendComment = () => {
+        if (!newCommentContent.trim()) return; // 빈 입력 필드 처리
+
+        const newComment = {
+            id: comments.length + 1,
+            author: "currentUser",
+            authorProfile: "", // 현재 사용자 프로필 이미지
+            role: "normal",
+            content: newCommentContent, // 입력한 댓글 내용
+            createdAt: "방금 전",
+        };
+
+        setComments(prev => [...prev, newComment]); // 기존 댓글에 추가
+        setNewCommentContent(""); // 입력 필드 초기화
+
+        // 댓글 추가 후 스크롤 이동
+        setTimeout(() => {
+            lastCommentRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100); // 약간의 딜레이로 부드러운 스크롤 처리
     };
 
     useEffect(() => {
@@ -66,24 +114,6 @@ function Post({ showNavigator }) {
         views: 20,
         content:
             "안녕하세요! 최근 바이오 관련 주식에 관심이 생겼는데, 초보자 입장에서 어떤 종목을 어떻게 접근해야 할지 조언 부탁드립니다.\n\n바이오 주식의 전망이나 추천할 만한 종목이 있으면 알려주세요!",
-        comments: [
-            {
-                id: 1,
-                author: "snrn",
-                authorProfile: "", // 댓글 작성자 프로필 이미지
-                role: "expert",
-                content: "안녕하세요! 바이오 주식은 변동성이 크기 때문에 장기 투자를 권장합니다.",
-                createdAt: "32분 전",
-            },
-            {
-                id: 2,
-                author: "normalUser",
-                authorProfile: "", // 프로필 이미지 없음
-                role: "normal",
-                content: "저도 궁금합니다!",
-                createdAt: "30분 전",
-            },
-        ],
     };
 
     return (
@@ -118,14 +148,17 @@ function Post({ showNavigator }) {
                 </button>
                 <button>
                     <img src={commentIcon} alt="댓글" />
-                    댓글 {post.comments.length}
+                    댓글 {comments.length}
                 </button>
             </ActionButtons>
 
             {/* 댓글 섹션 */}
             <CommentSection>
-                {post.comments.map(comment => (
-                    <Comment key={comment.id}>
+                {comments.map((comment, index) => (
+                    <Comment
+                        key={comment.id}
+                        ref={index === comments.length - 1 ? lastCommentRef : null} // 마지막 댓글에만 참조 추가
+                    >
                         <CommentHeader>
                             <ProfileImage src={comment.authorProfile || profileIcon} alt="Commenter" />
                             <div>
@@ -162,8 +195,12 @@ function Post({ showNavigator }) {
 
             {/* 화면 하단 고정 댓글 입력창 */}
             <FixedCommentContainer>
-                <CommentInput placeholder="댓글을 남겨보세요." />
-                <SendButton>등록</SendButton>
+                <CommentInput
+                    placeholder="댓글을 남겨보세요."
+                    value={newCommentContent}
+                    onChange={e => setNewCommentContent(e.target.value)}
+                />
+                <SendButton onClick={handleSendComment}>등록</SendButton>
             </FixedCommentContainer>
         </PostContainer>
     );
