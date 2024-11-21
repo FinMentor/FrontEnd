@@ -69,24 +69,33 @@ function Header() {
                 </>
             ) : (
                 <>
-                    {/* 기본 헤더 */}
-                    <BackArrowIcon onClick={handleBack} style={{ cursor: "pointer", width: "24px", height: "24px" }} />
+                    {!isTab ? (
+                        <>
+                            <BackArrowIcon onClick={handleBack} />
+                            {headerTitle}
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ display: "flex", gap: "8px" }}>
+                                <ChatModalIcon
+                                    onClick={() => setIsModalOpen(true)}
+                                    style={{ cursor: "pointer", width: "24px", height: "24px" }}
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <>{headerTitle}</>
+                    )}
+                    {/* 뒤로가기 버튼 (서브페이지가 없을 때만 표시) */}
+                    {currentSubPage ? (
+                        <BackArrowIcon
+                            onClick={handleBack}
+                            style={{ cursor: "pointer", width: "24px", height: "24px" }}
+                        />
+                    ) : null}
+                    {/* 헤더 제목 */}
                     <span>{headerTitle}</span>
-                    <div style={{ flex: 1 }}></div>
-                    {/* 채팅 모달 아이콘 */}
-                    <ChatModalIcon
-                        onClick={() => setIsModalOpen(true)}
-                        style={{ cursor: "pointer", width: "24px", height: "24px" }}
-                    />
                 </>
             )}
-            {/* 채팅 모달 */}
-            <ChatBottomModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                expertNickname="고수님 닉네임"
-                chatroomId="1"
-            />
+            <ChatBottomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </Nav>
     );
 }

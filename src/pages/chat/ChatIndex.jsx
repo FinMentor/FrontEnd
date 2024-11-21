@@ -1,7 +1,7 @@
 import { Root, HintMessage, AIMatchingContainer } from "./ChatIndex.styles";
 import AIMatching from "@/components/chat/AIMatching";
 import ChatList from "@/components/chat/ChatList";
-import PopularChatRoom from "@/components/chat/PopularChatRoom";
+// import PopularChatRoom from "@/components/chat/PopularChatRoom";
 
 function ChatIndex() {
     return (
@@ -12,7 +12,7 @@ function ChatIndex() {
                     <AIMatching />
                 </AIMatchingContainer>
                 <ChatList />
-                <PopularChatRoom />
+                {/* <PopularChatRoom /> */}
             </>
         </Root>
     );
