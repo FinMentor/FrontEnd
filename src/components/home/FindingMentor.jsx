@@ -7,38 +7,24 @@ import "swiper/css";
 const mentors = [
     {
         id: 1,
-        profileImage: "https://image.newsis.com/2024/11/06/NISI20241106_0001696513_web.jpg?rnd=20241106171229",
+        profileImage: "https://i.pinimg.com/736x/31/30/71/313071463c26e9f90287437da0fe590d.jpg",
         category: "예금/적금",
         name: "빽이",
-        monthlyReturn: "+7.5%",
+        followers: "2,024명",
     },
     {
         id: 2,
-        profileImage: "https://image.newsis.com/2024/11/06/NISI20241106_0001696513_web.jpg?rnd=20241106171229",
+        profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4uuDSyU8ztTwQsCvz1d1Z9EtQ7ZFG0FM7-g&s",
         category: "주식",
         name: "태양물고기",
-        monthlyReturn: "+5.2%",
+        followers: "1,122명",
     },
     {
         id: 3,
-        profileImage: "https://example.com/profile3.jpg",
-        category: "부동산",
-        name: "부동산 전문가",
-        monthlyReturn: "+3.8%",
-    },
-    {
-        id: 4,
-        profileImage: "https://example.com/profile4.jpg",
-        category: "채권",
-        name: "채권 분석가",
-        monthlyReturn: "+4.6%",
-    },
-    {
-        id: 5,
-        profileImage: "https://example.com/profile5.jpg",
-        category: "펀드",
-        name: "펀드 매니저",
-        monthlyReturn: "+6.1%",
+        profileImage: "https://img1.kbcard.com/home_re/mo/img/common/img-char-check-system.png",
+        category: "대출",
+        name: "스타뱅킹",
+        followers: "974명",
     },
 ];
 
@@ -55,7 +41,7 @@ function FindingMentor() {
                                 <MentorCategory>{mentor.category}</MentorCategory>
                                 <MentorName>{mentor.name}</MentorName>
                                 <MentorReturn>
-                                    <span style={{ color: "#000000" }}>월간 수익률</span> {mentor.monthlyReturn}
+                                    <span style={{ color: "#000000" }}>팔로워 수</span> {mentor.followers}
                                 </MentorReturn>
                             </MentorInfo>
                         </MentorCard>
