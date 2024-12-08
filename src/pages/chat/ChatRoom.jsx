@@ -61,16 +61,20 @@ function ChatRoom() {
         queryKey: ["message", chatroomId],
         queryFn: () => getChatRooms(chatroomId),
     });
-
+    const scrollToBottom = useCallback(() => {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+        });
+    }, []);
     useEffect(() => {
         setMessages(messagesData);
     }, [messagesData]);
 
     useEffect(() => {
-        if (messageAreaRef.current) {
-            messageAreaRef.current.scrollTop = messageAreaRef.current.scrollHeight + 50;
+        if (messages?.length > 0) {
+            scrollToBottom();
         }
-    }, [messages]);
+    }, [messagesData, messages]);
 
     const handleSendMessage = () => {
         if (!input.trim() || !isConnected) return;
@@ -108,8 +112,8 @@ function ChatRoom() {
     };
     return (
         <Root>
-            <ChatContainer ref={messageAreaRef}>
-                <MessagesContainer>
+            <ChatContainer>
+                <MessagesContainer ref={messageAreaRef}>
                     {messages?.map((message, index) => {
                         const isMine = message.memberId === memberId;
                         return (

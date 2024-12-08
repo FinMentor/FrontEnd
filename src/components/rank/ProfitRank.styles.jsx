@@ -4,14 +4,16 @@ export const Root = styled.div`
     background-color: #f5f5f5;
     position: fixed;
     bottom: 0;
-    height: 490px;
-    width: calc(100vw - 48px);
-    padding: 24px;
+    height: 500px;
+    width: 430px;
+    padding: 24px 0px 0px 0px;
+    overflow: hidden;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 `;
 
 export const MonthlyProfitContainer = styled.div`
+    padding: 14px;
     border-radius: 16px;
     padding-top: 16px;
 `;
@@ -23,6 +25,7 @@ export const MonthlyProfitTitle = styled.h2`
 `;
 
 export const WeeklyProfitContainer = styled.div`
+    padding: 14px;
     border-radius: 16px;
 `;
 
