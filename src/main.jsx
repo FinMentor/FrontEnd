@@ -10,9 +10,11 @@ import AppRoutes from "./routes";
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
+            retry: false,
             throwOnError: true,
         },
         mutations: {
+            retry: false,
             throwOnError: true,
         },
     },
